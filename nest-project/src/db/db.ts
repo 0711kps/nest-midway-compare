@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, OnApplicationBootstrap } from '@nestjs/common'
 import * as Loki from 'lokijs'
 
 @Injectable()
-export class DB extends Loki {
+export class DB extends Loki implements OnApplicationBootstrap
+{
   async onApplicationBootstrap(): Promise<void> {
     this.addCollection('books')
     this.getCollection('books').on('insert', input => { input.id = input.$loki })
